@@ -1,0 +1,65 @@
+﻿@model CreateUserViewModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<style>
+    .card {
+        border: 3px solid lime !important;
+    }
+</style>
+
+<div style="position: fixed; top: 60px; left: 15px; z-index: 1000;">
+    <a asp-controller="HR" asp-action="Index">
+        <img src="~/icons/Home Arrow.svg" alt="Back to HR Dashboard" width="50px" height="50px" style="filter: invert(92%) sepia(100%) saturate(7500%) hue-rotate(2deg) brightness(100%) contrast(100%);">
+    </a>
+</div>
+
+<div class="text-center">
+    <div class="card mx-auto" style="width: 450px;">
+        <form enctype="multipart/form-data" method="post" asp-action="AddNewUser">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            <div class="card-header d-flex justify-content-center align-items-center" style="font-size: 30px;">
+                <p class="m-0">Add User</p>
+            </div>
+            <div class="card-body">
+                <label class="card-title" asp-for="Name" style="margin-top: 10px;">Name of User:</label>
+                <input type="text" id="Name" name="Name" class="form-control" required
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <label class="card-title" asp-for="Surname" style="margin-top: 15px;">Surname of User:</label>
+                <input type="text" id="Surname" name="Surname" class="form-control" required
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <label class="card-title" asp-for="Email" style="margin-top: 15px;">User Email:</label>
+                <input type="text" id="Email" name="Email" class="form-control" required
+                          style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <label class="card-title" asp-for="UserName" style="margin-top: 15px;">Username:</label>
+                <input type="text" id="UserName" name="UserName" class="form-control" required
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <label class="card-title" asp-for="HourlyRate" style="margin-top: 15px;">Users Hourly Rate:</label>
+                <input type="number" id="HourlyRate" name="HourlyRate" class="form-control" required
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <label class="card-title" asp-for="SelectedRole" style="margin-top: 15px;">User Role:</label>
+                <select type="text" id="SelectedRole" name="SelectedRole" class="form-control" required
+                    style="margin-top: 10px; margin-top: 10px; height: 35px; border: 2px solid #0059df;">
+                    <option value="">Select User Role</option>
+                    <option value="lecturer">Lecturer</option>
+                    <option value="programme coordinator">Programme Coordinator</option>
+                    <option value="academic manager">Academic Manager</option>
+                    <option value="hr">HR</option>
+                </select>
+
+                <label class="card-title" asp-for="Password" style="margin-top: 15px;">Users Temporary Password:</label>
+                <input type="text" id="Password" name="Password" class="form-control" required
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <button type="submit" class="btn btn-success mt-4 rounded-pill w-100" style="height: 35px; font-size: 18px;">Create User</button>
+            </div>
+        </form>
+    </div>
+</div>

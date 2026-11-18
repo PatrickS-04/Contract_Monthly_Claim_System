@@ -1,0 +1,36 @@
+﻿<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="text-center">
+    <h1 class="display-4" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">Welcome, @User.Identity.Name</h1>
+    <p style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">This is your Personal Lecturer Dashboard where you can Submit Claims and View all the claims you have made!</p>
+
+    <div class="d-flex justify-content-center">
+        <div class="card parent-card" style="margin-top: 45px; width: 600px; padding: 20px;">
+            <div class="row justify-content-center">
+                <a asp-controller="Lecturer" asp-action="SubmitClaim" class="card hover-card" style="width: 250px;
+                    height: 150px; text-decoration: none;">
+                    <img src="https://www.iii.org/sites/default/files/images/p_homeclaim_823505824.jpg" class="card-img-top img-fluid" style="height: 100px; object-fit: cover;" alt="Submit Claim image" />
+                    <div class="card-body pt-3">
+                        <h5 class="card-title mb-3" style="font-size: 17px;">Submit a Claim</h5>
+                    </div>
+                </a>
+                <a asp-controller="Lecturer" asp-action="ViewLecturerClaims" class="card hover-card" style="width: 250px;
+                    height: 150px; margin-left: 20px; text-decoration:none;">
+                    <img src="https://www.pmattorneys.co.za/wp-content/uploads/2025/02/How-to-file-a-medical-negligence-claim-step-by-step-in-South-Africa.jpg" class="card-img-top img-fluid" style="height: 100px; object-fit: cover;" alt="View Claims image" />
+                    <div class="card-body pt-3">
+                        <h5 class="card-title mb-3" style="font-size: 17px;">View your Claims</h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model List<User>
+@inject UserManager<User> UserManager
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["NoUserFoundErrorMessage"] != null)
+{
+    <div class="alert alert-danger text-center">
+        @TempData["NoUserFoundErrorMessage"]
+    </div>
+}
+
+<div style="position: fixed; top: 60px; left: 15px; z-index: 1000;">
+    <a asp-controller="HR" asp-action="Index">
+        <img src="~/icons/Home Arrow.svg" alt="Back to HR Dashboard" width="50px" height="50px" style="filter: invert(92%) sepia(100%) saturate(7500%) hue-rotate(2deg) brightness(100%) contrast(100%);">
+    </a>
+</div>
+
+<div class="text-center">
+    <p class="display-4" style="font-size: 40px; color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">View All Existing Users</p>
+
+    <div class="container mt-5">
+
+        @if (!Model.Any())
+        {
+            <p class="text-center" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">There are no existing users</p>
+        }
+
+        else
+        {
+            <h5 class="card-title mb-3" id="claimsCounter" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">Existing Users: (@Model.Count)</h5>
+            <table id="usersTable" class="table table-bordered table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Email</th>
+                        <th>Username</th>
+                        <th>Hourly Rate</th>
+                        <th>User Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        var roles = UserManager.GetRolesAsync(user).Result;
+                        var usersRole = roles.FirstOrDefault();
+                        <tr style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);">
+                            <td>@user.Name</td>
+                            <td>@user.Surname</td>
+                            <td>@user.Email</td>
+                            <td>@user.UserName</td>
+                            <td>@user.HourlyRate</td>
+                            <td>@usersRole</td>
+                            <td>
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <a asp-controller="HR" asp-action="EditUserDetails" asp-route-UserId="@user.Id" class="btn btn-sm btn-warning">Edit Users Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

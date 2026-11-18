@@ -1,0 +1,71 @@
+﻿@model Claim
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<style>
+    .card {
+        border: 3px solid lime !important;
+    }
+</style>
+
+<div style="position: fixed; top: 60px; left: 15px; z-index: 1000;">
+    <a asp-controller="Lecturer" asp-action="Index">
+        <img src="~/icons/Home Arrow.svg" alt="Back to Lecturer Dashboard" width="50px" height="50px" style="filter: invert(92%) sepia(100%) saturate(7500%) hue-rotate(2deg) brightness(100%) contrast(100%);">
+    </a>
+</div>
+
+<div class="text-center">
+    <div class="card mx-auto" style="width: 450px;">
+        <form enctype="multipart/form-data" method="post" asp-action="SubmitClaim">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            <div class="card-header d-flex justify-content-center align-items-center" style="font-size: 30px;">
+                <p class="m-0">Submit Claim Form</p>
+            </div>
+            <div class="card-body">
+                <label class="card-title" asp-for="hoursWorked" style="margin-top: 10px;">Hours Worked:</label>
+                <input type="number" id="hoursWorked" name="hoursWorked" class="form-control" required
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+                <span asp-validation-for="hoursWorked" class="text-danger"></span>
+
+                <label class="card-title" asp-for="hourlyRate" style="margin-top: 15px;">Hourly Rate (Rands):</label>
+                <input type="number" id="hourlyRate" asp-for="hourlyRate" class="form-control" readonly
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <label class="card-title" asp-for="additionalNotes" style="margin-top: 15px;">Additional Notes:</label>
+                <textarea type="text" id="additionalNotes" name="additionalNotes" class="form-control" required
+                    style="margin-top: 10px; height: 180px; border: 2px solid #0059df;"></textarea>
+                <span asp-validation-for="additionalNotes" class="text-danger"></span>
+            </div>
+            <div class="card-header d-flex justify-content-center align-items-center" style="font-size: 20px;">
+                <p class="m-0">Add Supporting Documents (Optional)</p>
+            </div>
+            <div class="card-body">
+                <label class="card-title" asp-for="UploadedSupportingDocument" style="margin-top: 10px;">Supporting Document:</label>
+                <input type="file" accept=".pdf, .docx, .xlsx, .txt" name="UploadedSupportingDocument" class="form-control"
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <button type="submit" class="btn btn-success mt-4 rounded-pill w-100" style="height: 35px; font-size: 18px;">Submit Claim</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script>
+    $(document).ready(function () 
+    {
+        $("#hoursWorked").on("input", function () 
+        {
+            let val = $(this).val();
+            if (val < 0) 
+            {
+                $(this).val("");
+            }
+        });
+    });
+</script>

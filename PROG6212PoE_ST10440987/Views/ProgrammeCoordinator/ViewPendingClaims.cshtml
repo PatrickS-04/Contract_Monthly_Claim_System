@@ -1,0 +1,117 @@
+﻿@model List<Claim>
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<div style="position: fixed; top: 60px; left: 15px; z-index: 1000;">
+    <a asp-controller="ProgrammeCoordinator" asp-action="Index">
+        <img src="~/icons/Home Arrow.svg" alt="Back to Programme Coordinator Dashboard" width="50px" height="50px" style="filter: invert(92%) sepia(100%) saturate(7500%) hue-rotate(2deg) brightness(100%) contrast(100%);">
+    </a>
+</div>
+
+<div class="text-center">
+    <p class="display-4" style="font-size: 40px; color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">View Pending Claims</p>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">There are currently no Pending Claims at this time</p>
+    }
+
+    <div class="container mt-5">
+        <h5 class="card-title mb-3" style="color: #ffffff; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);">Pending Claims: (@Model.Count)</h5>
+        <table id="claimsTable" class="table table-bordered table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th>Lecturer</th>
+                    <th>Hours Worked</th>
+                    <th>Hourly Rate (Rands)</th>
+                    <th>Additional Notes</th>
+                    <th>Total Amount (Rands)</th>
+                    <th>Date of Claim</th>
+                    <th>Claim Status</th>
+                    <th>Supporting Documentation</th>
+                    <th>Claim Validity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in Model)
+                {
+                    string row = claim.potentialBadClaim ? "table-danger" : "table-success";
+                    <tr class="@row" data-status="@claim.claimStatus" style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);">
+                        <td>@claim.Lecturer.UserName</td>
+                        <td>@claim.hoursWorked</td>
+                        <td>@claim.hourlyRate</td>
+                        <td>@claim.additionalNotes</td>
+                        <td>@(claim.hoursWorked* claim.hourlyRate)</td>
+                        <td>@claim.dateOfClaim?.ToShortDateString()</td>
+                        <td>@claim.claimStatus</td>
+                        <td>
+                            @if (claim.SupportingDocument != null)
+                            {
+                                <a asp-action="DownloadSupportingDocument" asp-route-claimId="@claim.ClaimId"
+                                   class="btn btn-warning btn-sm">Download</a>
+                            }
+                            else
+                            {
+                                <span class="table-danger" style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);">No Supporting Document for this claim</span>
+                            }
+                        </td>
+                        <td>
+                            @if (claim.potentialBadClaim)
+                            {
+                                <span class="text-danger fw-bold">
+                                    @claim.badClaimMessage
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-success fw-bold">
+                                    Passes all verification checks
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <form asp-action="VerifyClaim" method="post" asp-route-claimId="@claim.ClaimId" onsubmit="return confirm('Are you sure you want to VERIFY this claim?\nThis cannot be undone')">
+                                    <button type="submit" class="btn btn-sm rounded-pill align-content-center justify-content-center"
+                                            style="height: 35px; width: 125px; align-items: center; font-size: 15px; background-color: lime; border: 2px solid red;">
+                                        Verify Claim
+                                    </button>
+                                </form>
+
+                                <form asp-action="RejectClaim" method="post" asp-route-claimId="@claim.ClaimId" onsubmit="return confirm('Are you sure you want to REJECT this claim?\nThis cannot be undone')">
+                                    <button type="submit" class="btn btn-sm rounded-pill align-content-center justify-content-center"
+                                            style="height: 35px; width: 125px; align-items: center; font-size: 15px; margin-left: 10px; background-color: red; border: 2px solid lime;">
+                                        Reject Claim
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function ()
+    {
+        var rows = document.querySelectorAll("#claimsTable tbody tr");
+        var claimsCount = 0;
+
+        rows.forEach(function (row)
+        {
+            var status = row.getAttribute("data-status");
+            if (status && status.toLowerCase() === "pending")
+            {
+                claimsCount++;
+            }
+        });
+
+        document.getElementById("claimsCounter").textContent = `Pending Claims: (${claimsCount})`;
+
+    });
+</script>

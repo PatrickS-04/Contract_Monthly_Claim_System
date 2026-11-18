@@ -1,0 +1,86 @@
+﻿@model PROG6212PoE_ST10440987.Models.ReportSummaryViewModel
+
+@{
+    ViewData["Title"] = "Approved Claims Report";
+}
+
+<div class="container my-5" id="report-content">
+    <h2 class="text-center mb-4 text-light">Approved Claims Report: @Model.ReportDate</h2>
+    <h3 class="text-center">Grand Total Amount Due: R @Model.TotalAmountDue.ToString("N2")</h3>
+    <hr />
+
+    @foreach (var summary in Model.lecturerReportSummaries)
+    {
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-light">
+                <h4 class="m-0 text-dark">
+                    Lecturer: @summary.LecturerName
+                    <small class="text-muted">(@summary.LecturerEmail)</small>
+                </h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Hourly Rate:</strong> R @summary.HourlyRate.ToString("N2")</p>
+                <p><strong>Total Approved Hours:</strong> @summary.OverallHoursWorked</p>
+                <h5 class="text-success">Total Amount Due: R @summary.OverallAmountDue.ToString("N2")</h5>
+
+                <h6 class="mt-3">Claims Detailed Breakdown:</h6>
+                <table class="table table-sm table-bordered">
+                    <thead class="table-info">
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Hours</th>
+                            <th>Claim Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var detail in summary.ApprovedClaims)
+                        {
+                            <tr>
+                                <td>@detail.ClaimId</td>
+                                <td>@detail.dateOfClaim.ToShortDateString()</td>
+                                <td>@detail.HoursWorked</td>
+                                <td>R @detail.totalForClaim.ToString("N2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer text-end">
+                <button class="btn btn-warning download-pdf-btn"
+                        data-target-id="report-card-@summary.LecturerId"
+                        data-filename-prefix="@summary.LecturerName.Replace(" ", "_")"
+                        data-report-date="@Model.ReportDate.Replace(" ", "_")">
+                    <i class="fas fa-file-pdf"></i> Download Report
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.download-pdf-btn').forEach(button => {
+            button.addEventListener('click', function ()
+            {
+                const targetId = this.getAttribute('data-target-id');
+                const lecturerName = this.getAttribute('data-filename-prefix');
+                const reportDate = this.getAttribute('data-report-date');
+
+                const element = document.getElementById(targetId);
+
+                var opt =
+                {
+                    margin:       1,
+                    filename:     `${lecturerName}_Invoice_${reportDate}.pdf`,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2 },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                html2pdf().set(opt).from(element).save();
+            });
+        });
+    </script>
+}

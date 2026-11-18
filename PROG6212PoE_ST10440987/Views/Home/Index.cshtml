@@ -1,0 +1,28 @@
+﻿<style>
+    .card {
+        border: 3px solid lime !important;
+    }
+</style>
+
+<div class="text-center">
+    <div class="card mx-auto" style="width: 250px; margin-top: 120px;">
+        <form enctype="multipart/form-data" method="post" asp-action="Login">
+            <div class="card-header d-flex justify-content-center align-items-center" style="font-size: 25px;">
+                <p class="m-0">LOGIN</p>
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="card-body">
+                <label class="card-title" for="username" style="margin-top: 10px;">Username:</label>
+                <input type="text" id="username" name="username" class="form-control" required
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+
+                <label class="card-title" for="password" style="margin-top: 10px;">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" required
+                       style="margin-top: 10px; height: 35px; border: 2px solid #0059df;" />
+            
+                <button type="submit" class="btn w-100" style="margin-top: 20px; height: 35px;
+                    display: block; align-items: center; font-size: 18px; background-color: cyan; border: 2px solid #0059df">LOGIN</button>
+            </div>
+        </form>
+    </div>
+</div>

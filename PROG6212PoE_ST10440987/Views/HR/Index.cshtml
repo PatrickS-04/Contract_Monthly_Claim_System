@@ -1,0 +1,45 @@
+﻿<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="text-center">
+    <h1 class="display-4" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">Welcome, @User.Identity.Name</h1>
+    <p style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);">This is your Personal HR Dashboard!</p>
+
+    <div class="d-flex justify-content-center">
+        <div class="card parent-card" style="margin-top: 45px; width: 850px; padding: 20px;">
+            <div class="row justify-content-center">
+                <a asp-controller="HR" asp-action="AddNewUser" class="card hover-card" style="width: 250px;
+                    height: 150px; text-decoration: none;">
+                    <img src="https://png.pngtree.com/png-vector/20220529/ourmid/pngtree-black-user-icon-flat-and-simple-vector-people-avatar-icon-vector-png-image_46750236.jpg" class="card-img-top img-fluid" style="height: 100px; object-fit: cover;" alt="Add New Users image" />
+                    <div class="card-body pt-3">
+                        <h5 class="card-title mb-3" style="font-size: 17px;">Add new User</h5>
+                    </div>
+                </a>
+
+                <a asp-controller="HR" asp-action="ShowAllUsers" class="card hover-card" style="width: 250px;
+                    height: 150px; margin-left: 20px; text-decoration: none;">
+                    <img src="https://onekeysupport.milwaukeetool.com/hs-fs/hubfs/support/images/screenshots/sending-multi-user-invitations-to-existing-one-key-users-1.png?width=600&name=sending-multi-user-invitations-to-existing-one-key-users-1.png" class="card-img-top img-fluid" style="height: 100px; object-fit: cover;" alt="All Existing Users image" />
+                    <div class="card-body pt-3">
+                        <h5 class="card-title mb-3" style="font-size: 17px;">All Existing Users</h5>
+                    </div>
+                </a>
+
+                <a asp-controller="HR" asp-action="GenerateSummaryReport" class="card hover-card" style="width: 250px;
+                    height: 150px; margin-left: 20px; text-decoration: none;">
+                    <img src="https://media.licdn.com/dms/image/v2/D4D12AQGZvLrQL6zUnA/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1673357274772?e=2147483647&v=beta&t=SqQk1ARiws_FvgNO6NWTFMNUaDb1RET5URVAgyPfkJo" class="card-img-top img-fluid" style="height: 100px; object-fit: cover;" alt="View Approved Claim Reports image" />
+                    <div class="card-body pt-3">
+                        <h5 class="card-title mb-3" style="font-size: 17px;">Summary Reports</h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
